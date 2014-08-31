@@ -20,7 +20,7 @@ const vector<string> stop_labels = {STOP};
 
 vector<string> labels;
 
-void ReadCoNNL(const char* fn,
+void ReadCoNLL(const char* fn,
                vector<vector<vector<string>>>& xs,
                vector<vector<string>>& ys);
 
@@ -96,7 +96,7 @@ int main(int argc, char** argv) {
   // read training data
   vector<vector<vector<string>>> train_x;
   vector<vector<string>> train_y;
-  ReadCoNNL(argv[1], train_x, train_y);
+  ReadCoNLL(argv[1], train_x, train_y);
   set<string> ls; for(auto& yy : train_y) for(auto& y : yy) ls.insert(y);
   cerr << "              LABELS:";
   for(auto& y : ls) { cerr << ' ' << y; labels.push_back(y); }

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void ReadCoNNL(const char* fname, vector<vector<vector<string>>>& x, vector<vector<string>>& y) {
+void ReadCoNLL(const char* fname, vector<vector<vector<string>>>& x, vector<vector<string>>& y) {
   cerr << "Read " << fname << endl;
   ifstream in(fname);
   assert(in);
