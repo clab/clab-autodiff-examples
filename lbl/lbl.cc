@@ -17,7 +17,6 @@ using adept::adouble;
 Dict d;
 
 vector<vector<unsigned>> corpus;
-set<unsigned> vocab;
 
 template <typename F>
 struct Params {
@@ -75,11 +74,10 @@ F log_loss(const Params<F>& p,
   for (unsigned i = 0; i < NGRAM_ORDER-1; ++i)
     pred += p.cmat[i] * p.clookup[context[context.size() - NGRAM_ORDER + i]];
   F z = 0.0;
-  F gold = 0.0;
-  for (unsigned v = 1; v < vocab.size(); ++v) {
+  F gold = pred.dot(p.plookup[w]) + p.bias[w];
+  for (unsigned v = 1; v < d.size(); ++v) {
     F score = pred.dot(p.plookup[v]) + p.bias[v];
     z += exp(score);
-    if (v == w) gold = score;
   }
   return log(z) - gold;
 }
@@ -93,22 +91,23 @@ int main(int argc, char** argv) {
   }
   const unsigned START = d.Convert("<s>");
   const unsigned STOP = d.Convert("</s>");
+  set<unsigned> vocab;
   ReadFromFile(argv[1], &d, &corpus, &vocab);
-  cerr << "|vocab| = " << vocab.size() << endl;
+  cerr << "|vocab| = " << d.size() << endl;
 
   // parameters
-  Params<double> params(vocab.size());
+  Params<double> params(d.size());
   for (auto& v : params.clookup) Randomize(v);
   for (auto& v : params.plookup) Randomize(v);
   for (auto& m : params.cmat) Randomize(m);
   for (auto& b : params.bias) b = 0.0;
 
   // adagrad diagonal
-  Params<double> h(vocab.size());
+  Params<double> h(d.size());
 
   // ad parameters
   adept::Stack s;
-  Params<adouble> aparams(vocab.size());
+  Params<adouble> aparams(d.size());
 
   vector<unsigned> ctx;
   for (unsigned iter = 0; iter < 200; ++iter) {
@@ -126,9 +125,9 @@ int main(int argc, char** argv) {
       loss += log_loss(aparams, ctx, STOP);
       ++chars;
     }
+    cerr << "perplexity = " << exp(loss.value() / chars) << endl;
     loss.set_gradient(1.0);
     s.compute_adjoint();
-    cerr << "perplexity = " << exp(loss.value() / chars) << endl;
     params.UpdateAdagrad(h, aparams);
   }
   return 0;
