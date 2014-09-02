@@ -1,18 +1,16 @@
-crf-autodiff
-============
+clab-autodiff-examples
+======================
 
-This package contains a very simple (and, when it comes to feature computation, very inefficient) C++ program to learn the parameters of a linear chain CRF model using [automatic differentiation](http://en.wikipedia.org/wiki/Automatic_differentiation).
+This repository contains some small examples of how to solve standard NLP learning problems using [automatic differentiation](http://en.wikipedia.org/wiki/Automatic_differentiation) to compute the derivatives of the objective function.
 
-The classical forward algorithm is used to compute the CRF training objective, and rather than explicitly writing the backward algorithm to compute the derivatives, I rely on the AD library.
+Examples included are:
 
-To build this code, you need:
+ * A linear chain [conditional random field](http://www-bcf.usc.edu/~feisha/pubs/shallow03.pdf)
+ * A [log bilinear language model](http://machinelearning.wustl.edu/mlpapers/paper_files/icml2007_MnihH07.pdf) (Section 4)
+
+To build the code, you need:
 
  * A C++11 compiler
  * The [Adept (Automatic Differentiation using Expression Templates) library](http://www.met.reading.ac.uk/clouds/adept/) installed
-
-To compile and run this code:
-
-    make
-    ./cref sample.conll
-
+ * The [Eigen](http://eigen.tuxfamily.org/) linear algebra library installed (for the LBL example)
 
