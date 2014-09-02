@@ -5,5 +5,5 @@ The classical forward algorithm is used to compute the CRF training objective, a
 To compile and run this code:
 
     make
-    ./cref sample.conll
+    ./crf sample.conll
 

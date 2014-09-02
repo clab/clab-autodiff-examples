@@ -115,8 +115,8 @@ int main(int argc, char** argv) {
     stack.new_recording();
     adouble cll = 0.0;
     for (unsigned i = 0; i < train_x.size(); ++i)
-      cll += log_likelihood(train_x[i], train_y[i], cweights);
-    cll -= l2penalty(lambda, cweights);
+      cll -= log_likelihood(train_x[i], train_y[i], cweights);
+    cll += l2penalty(lambda, cweights);
     cll.set_gradient(1.0);
     stack.compute_adjoint();
     cerr << "Iteration " << (iter+1) << " loss: " << cll.value() << endl;
@@ -125,7 +125,7 @@ int main(int argc, char** argv) {
       const double g = fv.second.get_gradient();
       if (!g) continue;
       const double hh = h[fv.first] += g*g;
-      weights[fv.first] += eta * g / sqrt(hh);
+      weights[fv.first] -= eta * g / sqrt(hh);
     }
   }
 }
