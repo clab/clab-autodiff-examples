@@ -16,3 +16,10 @@ To build the code, you need:
  * The [Adept (Automatic Differentiation using Expression Templates) library](http://www.met.reading.ac.uk/clouds/adept/)
  * The [Eigen](http://eigen.tuxfamily.org/) linear algebra library (for the LBL example)
 
+[Here is a crash course on automatic differentiation that I put together.](http://demo.clab.cs.cmu.edu/cdyer/autodiff.pdf)
+
+#### Further reading
+
+ * [autodiff.org](http://www.autodiff.org/) - lots of pointers
+ * [Fast Reverse-Mode Automatic Differentiation using Expression Templates in C++](http://www.met.reading.ac.uk/clouds/publications/adept.pdf) - paper describing the adept library
+ * [Recipes for Adjoint Code Construction](http://twister.ou.edu/OBAN2010/Giering_recipe4adjoint.pdf) - readable discussion about constructing adjoint mode (backward) automatic differentiation code
